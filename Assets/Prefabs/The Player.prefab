@@ -494,6 +494,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3989662333842440816}
+  - component: {fileID: 1042332159733900616}
   m_Layer: 0
   m_Name: BONE - Upper Torso
   m_TagString: Untagged
@@ -520,6 +521,22 @@ Transform:
   m_Father: {fileID: 3989662334835398163}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1042332159733900616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989662333842440819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5e659e3440d7cd419fb828570663bc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockRotationX: 0
+  lockRotationY: 0
+  lockRotationZ: 0
+  startingRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &3989662334640238395
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +788,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3989662334835398163}
   - component: {fileID: 3989662334835398162}
+  - component: {fileID: 3318960636069785466}
+  - component: {fileID: 3304986853982378447}
   m_Layer: 0
   m_Name: The Player
   m_TagString: Untagged
@@ -815,6 +834,37 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3318960636069785466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989662334835398157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f7d4db57fd1cef4c905893d9b55ab21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  wantsToTarget: 0
+  visionDis: 10
+  visionAngle: 90
+--- !u!114 &3304986853982378447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989662334835398157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2683b39d901694449333277dda30588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leg1: {fileID: 3989662333543373080}
+  leg2: {fileID: 3989662334744516074}
+  walkSpeed: 5
 --- !u!1 &3989662335074130548
 GameObject:
   m_ObjectHideFlags: 0
