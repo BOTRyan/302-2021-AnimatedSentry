@@ -11,10 +11,23 @@ public class PlayerMovement : MonoBehaviour
     public Transform leg2;
     public float walkSpeed = 5;
 
+    public float gravityMult = 30;
+    public float jumpImpulse = 10;
+
     private Camera cam;
     Vector3 inputDirection = new Vector3();
 
     private float verticalVelocity = 0;
+
+    private float timeLeftGrounded = 0;
+
+    public bool isGrounded
+    {
+        get
+        {
+            return pawn.isGrounded || timeLeftGrounded > 0;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +39,12 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // countdown:
+        if (timeLeftGrounded > 0) timeLeftGrounded -= Time.deltaTime;
+
         MovePlayer();
-        WiggleLegs();
+        if (isGrounded) WiggleLegs();
+        else AirLegs();
     }
 
     private void WiggleLegs()
@@ -50,18 +67,20 @@ public class PlayerMovement : MonoBehaviour
         leg2.localRotation = AnimMath.Slide(leg2.localRotation, Quaternion.AngleAxis(-wave, axis), 0.001f);
     }
 
+    private void AirLegs()
+    {
+        leg1.localRotation = AnimMath.Slide(leg1.localRotation, Quaternion.Euler(30, 0, 0), 0.001f);
+        leg2.localRotation = AnimMath.Slide(leg2.localRotation, Quaternion.Euler(-30, 0, 0), 0.001f);
+    }
+
     private void MovePlayer()
     {
         float h = Input.GetAxis("Horizontal"); // strafing?
         float v = Input.GetAxis("Vertical"); // forward / backward
         float z = Input.GetAxis("Jump"); // jump
+        bool isJumpHeld = Input.GetButtonDown("Jump");
 
         bool isTryingToMove = (h != 0 || v != 0);
-
-        if (z != 0 && pawn.isGrounded)
-        {
-            verticalVelocity = -5;
-        }
 
         if (isTryingToMove)
         {
@@ -73,7 +92,17 @@ public class PlayerMovement : MonoBehaviour
         if (inputDirection.sqrMagnitude > 1) inputDirection.Normalize();
 
         // apply gravity
-        verticalVelocity += 10 * Time.deltaTime;
+        verticalVelocity += gravityMult * Time.deltaTime;
+
+        // sprinting
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            walkSpeed = 10;
+        }
+        else
+        {
+            walkSpeed = 5;
+        }
 
         // adds lateral movement to vertical movement
         Vector3 moveDelta = inputDirection * walkSpeed + verticalVelocity * Vector3.down;
@@ -84,6 +113,17 @@ public class PlayerMovement : MonoBehaviour
         if (pawn.isGrounded)
         {
             verticalVelocity = 0;
+
+            timeLeftGrounded = 0.2f;
+        }
+
+        if (isGrounded)
+        {
+            if (z != 0 && isJumpHeld)
+            {
+                verticalVelocity = -jumpImpulse;
+                timeLeftGrounded = 0;
+            }
         }
     }
 }

@@ -1,12 +1,12 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PointAt : MonoBehaviour
+public class HeadPointAt : MonoBehaviour
 {
 
     private PlayerTargeting playerTargeting;
+    public Transform cameraTarg;
 
     public bool lockRotationX;
     public bool lockRotationY;
@@ -52,8 +52,7 @@ public class PointAt : MonoBehaviour
         else
         {
             // figure out bone rotation, no target:
-
-            transform.localRotation = AnimMath.Slide(transform.localRotation, startingRotation, .05f);
+            transform.localRotation = AnimMath.Slide(transform.localRotation, Quaternion.Euler(0, cameraTarg.localRotation.y * 180 / Mathf.PI, 0), 0.001f);
         }
 
     }

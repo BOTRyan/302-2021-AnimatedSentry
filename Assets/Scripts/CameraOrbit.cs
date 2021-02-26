@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class CameraOrbit : MonoBehaviour
 
     public float cameraSensitivityX = 5;
     public float cameraSensitivityY = 5;
+
+    private float shakeIntensity = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +37,26 @@ public class CameraOrbit : MonoBehaviour
 
         // "zoom" in the camera
         ZoomCamera();
+
+        // shake the camera
+        ShakeCamera();
+    }
+
+    public void Shake(float intensity = 1)
+    {
+        shakeIntensity = intensity;
+    }
+
+    private void ShakeCamera()
+    {
+        if (shakeIntensity < 0) shakeIntensity = 0;
+
+        if (shakeIntensity > 0) shakeIntensity -= Time.deltaTime;
+        else return;
+
+        Quaternion targetRot = AnimMath.Lerp(UnityEngine.Random.rotation, Quaternion.identity, 0.99f);
+
+        cam.transform.localRotation = AnimMath.Lerp(cam.transform.localRotation, cam.transform.localRotation * targetRot, shakeIntensity);
     }
 
     private bool IsTargeting()
@@ -75,8 +98,6 @@ public class CameraOrbit : MonoBehaviour
 
             cam.transform.localRotation = AnimMath.Slide(cam.transform.localRotation, targetRot, 0.001f);
         }
-
-
     }
 
     private void PlayerOrbitCamera()
