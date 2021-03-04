@@ -7,10 +7,14 @@ public class HeadPointAt : MonoBehaviour
 
     private PlayerTargeting playerTargeting;
     public Transform cameraTarg;
+    public Transform Player;
 
     public bool lockRotationX;
     public bool lockRotationY;
     public bool lockRotationZ;
+    public bool isReset = false;
+
+    public float result = 0;
 
     public Quaternion startingRotation;
 
@@ -31,6 +35,7 @@ public class HeadPointAt : MonoBehaviour
     {
         if (playerTargeting && playerTargeting.target && playerTargeting.wantsToTarget)
         {
+            result = 0;
             Vector3 disToTarget = playerTargeting.target.position - transform.position;
 
             Quaternion targetRotation = Quaternion.LookRotation(disToTarget, Vector3.up);
@@ -51,9 +56,7 @@ public class HeadPointAt : MonoBehaviour
         }
         else
         {
-            // figure out bone rotation, no target:
-            transform.localRotation = AnimMath.Slide(transform.localRotation, Quaternion.Euler(0, cameraTarg.localRotation.y * 180 / Mathf.PI, 0), 0.001f);
+            transform.localRotation = AnimMath.Slide(transform.localRotation, startingRotation, .01f);
         }
-
     }
 }

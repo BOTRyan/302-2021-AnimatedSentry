@@ -52,9 +52,7 @@ public class PointAt : MonoBehaviour
         else
         {
             // figure out bone rotation, no target:
-
             transform.localRotation = AnimMath.Slide(transform.localRotation, startingRotation, .05f);
         }
-
     }
 }

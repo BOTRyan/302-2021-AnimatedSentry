@@ -9,14 +9,17 @@ public class PlayerTargeting : MonoBehaviour
     public Transform target;
     public bool wantsToTarget = false;
     public bool wantsToAttack = false;
-    public float visionDis = 10;
+    public float visionDis = 5;
     public float visionAngle = 90;
 
     private float searchCooldown = 0;
     private float pickCooldown = 0;
     private float shootCooldown = 0;
+    private float reloadTimer = 0;
 
-    public float roundsPerSecond = 10;
+    private float roundsPerSecond = 6;
+
+    private int bullets = 20;
 
     private List<TargetableThing> potentaialTargets = new List<TargetableThing>();
 
@@ -61,15 +64,41 @@ public class PlayerTargeting : MonoBehaviour
 
         if (shootCooldown > 0) shootCooldown -= Time.deltaTime;
 
-        SlideArmsHome();
+        if (reloadTimer <= 0) SlideArmsHome();
 
         DoAttack();
+
+        if (Input.GetKeyDown(KeyCode.R) || bullets <= 0)
+        {
+            reloadTimer = 1;
+        }
+
+        Reload();
+    }
+
+    private void Reload()
+    {
+        if (reloadTimer > 0)
+        {
+            reloadTimer -= Time.deltaTime;
+            armL.localRotation = AnimMath.Slide(armL.localRotation, Quaternion.Euler(armL.localRotation.x + 25, armL.localRotation.y + 60, armL.localRotation.z), 0.001f);
+            armR.localRotation = AnimMath.Slide(armR.localRotation, Quaternion.Euler(armR.localRotation.x + 25, armR.localRotation.y - 60, armR.localRotation.z), 0.001f);
+
+            if (reloadTimer <= 0)
+            {
+                reloadTimer = 0;
+                bullets = 20;
+            }
+        }
     }
 
     private void SlideArmsHome()
     {
-        armL.localPosition = AnimMath.Slide(armL.localPosition, startPosArmL, 0.01f);
-        armR.localPosition = AnimMath.Slide(armR.localPosition, startPosArmR, 0.01f);
+        if (reloadTimer <= 0)
+        {
+            armL.localPosition = AnimMath.Slide(armL.localPosition, startPosArmL, 0.01f);
+            armR.localPosition = AnimMath.Slide(armR.localPosition, startPosArmR, 0.01f);
+        }
     }
 
     private void DoAttack()
@@ -78,6 +107,8 @@ public class PlayerTargeting : MonoBehaviour
         if (!wantsToTarget) return;
         if (!wantsToAttack) return;
         if (target == null) return;
+        if (bullets <= 0) return;
+        if (reloadTimer > 0) return;
         if (!canSeeThing(target)) return;
 
         HealthSystem targetHealth = target.GetComponent<HealthSystem>();
@@ -89,8 +120,9 @@ public class PlayerTargeting : MonoBehaviour
         // resets cooldown:
         shootCooldown = 1 / roundsPerSecond;
 
+        bullets -= 2;
+
         camOrbit.Shake(.25f);
-        
 
         if (handL) Instantiate(prefabMuzzleFlash, handL.position, handL.rotation);
         if (handR) Instantiate(prefabMuzzleFlash, handR.position, handR.rotation);
