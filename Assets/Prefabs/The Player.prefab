@@ -1302,8 +1302,6 @@ MonoBehaviour:
   wantsToAttack: 0
   visionDis: 10
   visionAngle: 90
-  roundsPerSecond: 10
-  bullets: 10
   armL: {fileID: 3989662335284178022}
   armR: {fileID: 3989662333660924359}
   prefabMuzzleFlash: {fileID: 6050375033719705822, guid: 129fcc1250dfd0e41bb9b227bd29299c, type: 3}
@@ -1339,6 +1337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMax: 100
+  prefabExplosion: {fileID: 6050375033719705822, guid: 72c4fee22578c4d498ff971990376f52, type: 3}
 --- !u!1 &3989662335074130548
 GameObject:
   m_ObjectHideFlags: 0

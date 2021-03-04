@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float gravityMult = 30;
     public float jumpImpulse = 10;
+    public float legRot = 0;
 
     private Camera cam;
     Vector3 inputDirection = new Vector3();
@@ -20,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
     private float verticalVelocity = 0;
 
     private float timeLeftGrounded = 0;
+
+    public bool isDead = false;
 
     public bool isGrounded
     {
@@ -42,9 +45,15 @@ public class PlayerMovement : MonoBehaviour
         // countdown:
         if (timeLeftGrounded > 0) timeLeftGrounded -= Time.deltaTime;
 
-        MovePlayer();
-        if (isGrounded) WiggleLegs();
-        else AirLegs();
+        if (!isDead)
+        {
+            MovePlayer();
+            if (isGrounded) WiggleLegs();
+            else AirLegs();
+        }
+
+
+        if (isDead) Die();
     }
 
     private void WiggleLegs()
@@ -71,6 +80,11 @@ public class PlayerMovement : MonoBehaviour
     {
         leg1.localRotation = AnimMath.Slide(leg1.localRotation, Quaternion.Euler(30, 0, 0), 0.001f);
         leg2.localRotation = AnimMath.Slide(leg2.localRotation, Quaternion.Euler(-30, 0, 0), 0.001f);
+    }
+
+    public void Die()
+    {
+
     }
 
     private void MovePlayer()

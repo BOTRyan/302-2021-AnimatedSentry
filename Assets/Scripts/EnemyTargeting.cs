@@ -34,10 +34,16 @@ public class EnemyTargeting : MonoBehaviour
         DoAttack();
     }
 
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
+
     private void DoAttack()
     {
         if (shootCooldown > 0) return;
         if (Player == null) return;
+        if (Player.GetComponent<PlayerMovement>().isDead) return;
         if (!canSeeThing(Player.transform)) return;
 
         // resets cooldown:

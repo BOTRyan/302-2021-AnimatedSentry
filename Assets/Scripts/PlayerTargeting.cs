@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerTargeting : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class PlayerTargeting : MonoBehaviour
     public Transform handL;
 
     CameraOrbit camOrbit;
+
+    public TMPro.TextMeshProUGUI ammoCount;
 
     // Start is called before the first frame update
     void Start()
@@ -68,12 +71,21 @@ public class PlayerTargeting : MonoBehaviour
 
         DoAttack();
 
-        if (Input.GetKeyDown(KeyCode.R) || bullets <= 0)
+        if (Input.GetKeyDown(KeyCode.R))
         {
             reloadTimer = 1;
         }
 
         Reload();
+
+        if(bullets > 0)
+        {
+            ammoCount.text = "Ammo: " + bullets;
+        }
+        else
+        {
+            ammoCount.text = "R to Reload";
+        }
     }
 
     private void Reload()

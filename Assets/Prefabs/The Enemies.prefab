@@ -288,6 +288,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMax: 100
+  prefabExplosion: {fileID: 6050375033719705822, guid: 72c4fee22578c4d498ff971990376f52, type: 3}
+  prefabDamageFloatie: {fileID: 6985056329187746197, guid: b54882cadc91c55479e7dacbca7a1c5a, type: 3}
+  healthDis: {fileID: 0}
 --- !u!114 &8083549454903161403
 MonoBehaviour:
   m_ObjectHideFlags: 0

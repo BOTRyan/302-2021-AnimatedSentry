@@ -22,7 +22,7 @@ public class EnemyPointAt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canSeeThing(Player.transform)) TurnTowardsTarget();
+        if (Player) if (canSeeThing(Player.transform)) TurnTowardsTarget();
     }
 
     private void TurnTowardsTarget()

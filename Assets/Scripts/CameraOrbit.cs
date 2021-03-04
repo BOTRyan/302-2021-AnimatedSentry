@@ -28,18 +28,21 @@ public class CameraOrbit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerOrbitCamera();
+        if (moveScript && !moveScript.isDead)
+        {
+            PlayerOrbitCamera();
 
-        transform.position = moveScript.transform.position;
+            transform.position = moveScript.transform.position;
 
-        // if aiming, set camera rotation to look at target
-        RotateCamToLookAtTarget();
+            // if aiming, set camera rotation to look at target
+            RotateCamToLookAtTarget();
 
-        // "zoom" in the camera
-        ZoomCamera();
+            // "zoom" in the camera
+            ZoomCamera();
 
-        // shake the camera
-        ShakeCamera();
+            // shake the camera
+            ShakeCamera();
+        }
     }
 
     public void Shake(float intensity = 1)
